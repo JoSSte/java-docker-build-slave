@@ -3,4 +3,4 @@ version:  '2'
 services:
   man:
     build: .
-    image: josste/java-docker-build-slave:v8
+    image: josste/java-docker-build-slave:v11
