@@ -23,20 +23,21 @@ RUN mkdir /home/jenkins/.m2
 
 # fix java
 
-RUN ln -s /usr/lib/jvm/java-11-openjdk-amd64/ /home/jenkins/jdk \
-    chown jenkins:jenkins /home/jenkins/jdk
+RUN ln -s /usr/lib/jvm/java-11-openjdk-amd64/ /home/jenkins/jdk
 
 #ADD settings.xml /home/jenkins/.m2/
 # Copy authorized_keys & known_hosts & private key for ssh deploys
 COPY ssh/authorized_keys /home/jenkins/.ssh/authorized_keys
 COPY ssh/known_hosts /home/jenkins/.ssh/known_hosts
 
-RUN ssh-keyscan -H bitbucket.org >> /home/jenkins/.ssh/known_hosts \
-    ssh-keyscan -H github.com >> /home/jenkins/.ssh/known_hosts \
+RUN ssh-keyscan -H bitbucket.org >> /home/jenkins/.ssh/known_hosts && \
+    ssh-keyscan -H github.com >> /home/jenkins/.ssh/known_hosts && \
     chown -R jenkins:jenkins /home/jenkins/.ssh/
 
+# make sure jenkins user owns the created folders
 RUN chown -R jenkins:jenkins /home/jenkins/.m2/ && \
-    chown -R jenkins:jenkins /home/jenkins/.ssh/
+    chown -R jenkins:jenkins /home/jenkins/.ssh/ && \
+    chown jenkins:jenkins /home/jenkins/jdk
 
 # Standard SSH port
 EXPOSE 22

@@ -1,6 +1,6 @@
 version:  '2'
 
 services:
-  man:
+  java-builder:
     build: .
     image: josste/java-docker-build-slave:v11
